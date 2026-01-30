@@ -45,7 +45,7 @@ void VM2_Sub(float* first, float* second) {
 
 void VM2_ScaleO(float* first, float scale, float* out) {
     out[0] = first[0] * scale;
-    out[1] = first[0] * scale;
+    out[1] = first[1] * scale;
 }
 
 void VM2_Scale(float* first, float scale) {
