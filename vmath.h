@@ -19,6 +19,9 @@ void  VM2_DotO(float*, float*, float* out);
 float VM2_Dot(float*, float*);
 void  VM2_AreaO(float*, float*, float* out);
 float VM2_Area(float*, float*);
+void  VM2_Copy(float*, float* dest);
+_Bool VM2_Eq(float*, float*);
+
 
 //#endif
 #ifdef _VMATH_IMPLEMENTATION_
@@ -29,8 +32,10 @@ void VM2_AddO(float* first, float* second, float* out) {
 }
 
 void VM2_Add(float* first, float* second) {
-    first[0] += second[0];
-    first[1] += second[1];
+    float temp[2];
+    VM2_AddO(first, second, temp);
+    VM2_Copy(temp, first);
+
 }
 
 void VM2_SubO(float* first, float* second, float* out) {
@@ -39,8 +44,9 @@ void VM2_SubO(float* first, float* second, float* out) {
 }
 
 void VM2_Sub(float* first, float* second) {
-    first[0] -= second[0];
-    first[1] -= second[1];
+    float temp[2];
+    VM2_SubO(first, second, temp);
+    VM2_Copy(temp, first);
 }
 
 void VM2_ScaleO(float* first, float scale, float* out) {
@@ -49,8 +55,9 @@ void VM2_ScaleO(float* first, float scale, float* out) {
 }
 
 void VM2_Scale(float* first, float scale) {
-    first[0] *= scale;
-    first[1] *= scale;
+    float temp[2];
+    VM2_ScaleO(first, scale, temp);
+    VM2_Copy(temp, first);
 }
 
 float VM2_Dot(float* first, float* second) {
@@ -67,6 +74,15 @@ float VM2_Area(float* first, float* second) {
 
 void VM2_AreaO(float* first, float* second, float* out) {
     out[0] = VM2_Area(first, second);
+}
+
+void VM2_Copy(float* first, float* second) {
+    second[0] = first[0];
+    second[1] = first[1];
+}
+
+_Bool VM2_Eq(float* first, float* second) {
+    return first[0] == second[0] && first[1] == second[1];
 }
 
 #endif
