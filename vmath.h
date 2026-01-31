@@ -32,6 +32,8 @@ void  VM2_Copy(float* to, float* from);
 _Bool VM2_Eq(float*, float*);
 void VM2_Set(float*, float, float);
 
+#define VM2_ZERO ((float[2]){0.0f, 0.0f})
+#define VM2_ONE  ((float[2]){1.0f, 1.0f})
 
 // Matrix 2x2
 void  VM22_AddO(float*, float*, float* out);
