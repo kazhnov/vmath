@@ -228,13 +228,13 @@ _Bool VMV_Eq(float* first, float* second, uint32_t dims) {
 }
 
 void VMV_AddO(float* first, float* second, float* out, uint32_t dims) {
-    for (size_t i = 0; i < dims; i++) {
+    for (int i = 0; i < dims; i++) {
 	out[i] = first[i] + second[i];
     }
 }
 
 void VMV_Add(float* to, float* from, uint32_t dims) {
-    for (size_t i = 0; i < dims; i++) {
+    for (int i = 0; i < dims; i++) {
 	to[i] += from[i];
     }
 }
