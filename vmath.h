@@ -44,8 +44,8 @@ _Bool VM2P_Eq(float (*first)[2], float (*second)[2], uint32_t amount);
 _Bool VMV_Eq(float* first, float* second, uint32_t amount);
 
 
-#define VM2_ZERO ((float[2]){0.0f, 0.0f})
-#define VM2_ONE  ((float[2]){1.0f, 1.0f})
+#define VM2_ZERO {0.0f, 0.0f}
+#define VM2_ONE  {1.0f, 1.0f}
 
 // Matrix 2x2
 void  VM22_AddO(float*, float*, float* out);
@@ -135,7 +135,11 @@ void VM2_RotateO(float* in, float angle, float* out) {
     out[0] = in[0] * cosf(angle) - in[1] * sinf(angle);
     out[1] = in[0] * sinf(angle) + in[1] * cosf(angle);
 }
-void VM2_Rotate(float*, float);
+void VM2_Rotate(float* to, float angle) {
+    float temp[2];
+    VM2_RotateO(to, angle, temp);
+    VM2_Copy(to, temp);
+}
 
 _Bool VM2_Eq(float* first, float* second) {
     return first[0] == second[0] && first[1] == second[1];
