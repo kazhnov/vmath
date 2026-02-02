@@ -347,7 +347,7 @@ void VM44_V2A1(float* pos, float angle, float* out) {
 
     VM4_Set(out+0,  c, -s, 0, pos[0]);
     VM4_Set(out+4,  s,  c, 0, pos[1]);
-    VM4_Set(out+8,  0,  0, 1, pos[2]);
+    VM4_Set(out+8,  0,  0, 1, 0     );
     VM4_Set(out+12, 0,  0, 0, 1     );   
 }
 
