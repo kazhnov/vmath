@@ -1,3 +1,5 @@
+#include <stdint.h>
+#include <math.h>
 //#ifndef _VMATH_H_
 //#define _VMATH_H_
 
@@ -28,9 +30,19 @@ float VM2_Area(float*, float*);
 void  VM2_LengthO(float*, float*);
 float VM2_Length(float*);
 
+void VM2_RotateO(float*, float, float* out);
+void VM2_Rotate(float*, float);
+
 void  VM2_Copy(float* to, float* from);
 _Bool VM2_Eq(float*, float*);
 void VM2_Set(float*, float, float);
+
+void VM2_Pack(float* values, uint32_t amount, float (*out)[2]);
+void VM2_Unpack(float (*values)[2], uint32_t amount, float* out);
+_Bool VM2P_Eq(float (*first)[2], float (*second)[2], uint32_t amount);
+
+_Bool VMV_Eq(float* first, float* second, uint32_t amount);
+
 
 #define VM2_ZERO ((float[2]){0.0f, 0.0f})
 #define VM2_ONE  ((float[2]){1.0f, 1.0f})
@@ -118,6 +130,13 @@ void VM2_Copy(float* first, float* second) {
     first[1] = second[1];
 }
 
+
+void VM2_RotateO(float* in, float angle, float* out) {
+    out[0] = in[0] * cosf(angle) - in[1] * sinf(angle);
+    out[1] = in[0] * sinf(angle) + in[1] * cosf(angle);
+}
+void VM2_Rotate(float*, float);
+
 _Bool VM2_Eq(float* first, float* second) {
     return first[0] == second[0] && first[1] == second[1];
 }
@@ -126,6 +145,33 @@ void VM2_Set(float* to, float x, float y) {
     to[0] = x;
     to[1] = y;
 }
+
+void VM2_Pack(float* values, uint32_t amount, float (*out)[2]) {
+    for (int i = 0; i < amount/2; i++) {
+	VM2_Copy(out[i], values+2*i);
+    }
+}
+
+void VM2_Unpack(float (*values)[2], uint32_t amount, float* out) {
+    for (int i = 0; i < amount; i++) {
+	VM2_Copy(out+2*i, values[i]);
+    }    
+}
+
+_Bool VM2P_Eq(float (*first)[2], float (*second)[2], uint32_t amount) {
+    for (int i = 0; i < amount; i++) {
+	if (!VM2_Eq(first[i], second[i])) return 0;
+    }
+    return 1;
+}
+
+_Bool VMV_Eq(float* first, float* second, uint32_t amount) {
+    for (int i = 0; i < amount; i++) {
+	if (first[i] != second[i]) return 0;
+    }
+    return 1;
+}
+
 
 // Matrix 2x2
 

@@ -19,6 +19,21 @@ void test_vectors() {
     printf("OK\n");
 }
 
+void test_vectors_packed() {
+    printf("Testing Packed Vectors.. ");
+    float unpacked[6] =  {  1.0f, 6.0f,   3.0f, 4.0f,   5.0f, 6.0f  };
+    float packed[3][2] = { {1.0f, 6.0f}, {3.0f, 4.0f}, {5.0f, 6.0f} };
+    float result_p[3][2];
+    float result_up[6];
+
+    VM2_Pack(unpacked, 6, result_p);
+    assert(VM2P_Eq(result_p, packed, 3));
+
+    VM2_Unpack(packed, 3, result_up);
+    assert(VMV_Eq(result_up, unpacked, 6));
+    printf("OK\n");
+}
+
 void test_matricies() {
     printf("Testing Matricies.. ");
     float first[4] = VM22_IDENTITY;
@@ -40,4 +55,5 @@ void test_matricies() {
 int main() {
     test_vectors();
     test_matricies();
+    test_vectors_packed();
 }

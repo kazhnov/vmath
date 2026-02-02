@@ -1,3 +1,3 @@
 tests: tests.c
-	cc tests.c -o test
+	cc tests.c -o test -lm
 	./test
