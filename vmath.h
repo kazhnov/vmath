@@ -17,12 +17,13 @@ float VM_InverseSqrt(float);
 // Variable Vectors
 _Bool VMV_Eq(float* first, float* second, uint32_t dims);
 void VMV_Copy(float* first, float* second, uint32_t dims);
-
+void VMV_AddO(float* first, float* second, float* out, uint32_t dims);
+void VMV_Add(float* to, float* from, uint32_t dims);
 
 
 // Vector2
-void  VM2_AddO(float*, float*, float* out);
-void  VM2_Add(float* to, float*);
+#define VM2_AddO(first, second, out) (VMV_AddO(first, second, out, 2))
+#define VM2_Add(to, from)            (VMV_Add(to, from, 2))
 
 void  VM2_SubO(float*, float*, float* out);
 void  VM2_Sub(float* to, float*);
@@ -57,6 +58,7 @@ _Bool VM2P_Eq(float (*first)[2], float (*second)[2], uint32_t amount);
 
 #define VM3_Eq(first, second) (VMV_Eq(first, second, 3))
 #define VM3_Copy(to, from)    (VMV_Copy(to, from, 3))
+void VM3_Set(float* to, float x, float y, float z);
 
 #define VM2_ZERO {0.0f, 0.0f}
 #define VM2_ONE  {1.0f, 1.0f}
@@ -91,6 +93,11 @@ void  VM22_Set(float*, float, float, float, float);
 #define VM22_IDENTITY {1.0, 0.0, \
                         0.0, 1.0}
 
+void VM44_V3A3(float* pos, float* a, float* out);
+
+void VM44_V2A1(float* pos, float angle, float* out);
+
+
 //#endif
 #ifdef _VMATH_IMPLEMENTATION_
 
@@ -111,16 +118,16 @@ float VM_InverseSqrt(float number) {
     return y;
 }
 
-void VM2_AddO(float* first, float* second, float* out) {
-    out[0] = first[0] + second[0];
-    out[1] = first[1] + second[1];
-}
+/* void VM2_AddO(float* first, float* second, float* out) { */
+/*     out[0] = first[0] + second[0]; */
+/*     out[1] = first[1] + second[1]; */
+/* } */
 
-void VM2_Add(float* first, float* second) {
-    float temp[2];
-    VM2_AddO(first, second, temp);
-    VM2_Copy(first, temp);
-}
+/* void VM2_Add(float* first, float* second) { */
+/*     float temp[2]; */
+/*     VM2_AddO(first, second, temp); */
+/*     VM2_Copy(first, temp); */
+/* } */
 
 void VM2_SubO(float* first, float* second, float* out) {
     out[0] = first[0] - second[0];
@@ -159,11 +166,6 @@ float VM2_Area(float* first, float* second) {
 void VM2_AreaO(float* first, float* second, float* out) {
     out[0] = VM2_Area(first, second);
 }
-
-/* void VM2_Copy(float* first, float* second) { */
-/*     first[0] = second[0]; */
-/*     first[1] = second[1]; */
-/* } */
 
 float VM2_LengthSquared(float* v) {
     return v[0]*v[0] + v[1]*v[1];
@@ -212,6 +214,12 @@ _Bool VM2P_Eq(float (*first)[2], float (*second)[2], uint32_t amount) {
     return 1;
 }
 
+void VM3_Set(float* to, float x, float y, float z) {
+    to[0] = x;
+    to[1] = y;
+    to[2] = z;
+}
+
 _Bool VMV_Eq(float* first, float* second, uint32_t dims) {
     for (int i = 0; i < dims; i++) {
 	if (first[i] != second[i]) return 0;
@@ -219,6 +227,17 @@ _Bool VMV_Eq(float* first, float* second, uint32_t dims) {
     return 1;
 }
 
+void VMV_AddO(float* first, float* second, float* out, uint32_t dims) {
+    for (size_t i = 0; i < dims; i++) {
+	out[i] = first[i] + second[i];
+    }
+}
+
+void VMV_Add(float* to, float* from, uint32_t dims) {
+    for (size_t i = 0; i < dims; i++) {
+	to[i] += from[i];
+    }
+}
 
 void VMV_Copy(float* to, float* from, uint32_t dims) {
     for (int i = 0; i < dims; i++) {
@@ -306,5 +325,30 @@ float VM22_Det(float* of) {
 }
 
 
+void VM4_Set(float* to, float x, float y, float z, float w) {
+    to[0] = x;
+    to[1] = y;
+    to[2] = z;
+    to[3] = w;
+}
+
+void VM44_V3A3(float* pos, float* a, float* out) {
+    float s[3] = {sinf(a[0]), sinf(a[1]), sinf(a[2])};
+    float c[3] = {cosf(a[0]), cosf(a[1]), cosf(a[2])};
+    VM4_Set(out+0,  c[0]*c[1],  c[0]*s[1]*s[2] - s[0]*c[2],  c[0]*s[1]*c[2] + s[0]*s[2], pos[0]);
+    VM4_Set(out+4,  s[0]*c[1],  s[0]*s[1]*s[2] - c[0]*c[2],  s[0]*s[1]*c[2] - c[0]*s[2], pos[1]);
+    VM4_Set(out+8,      -s[1],       c[1]*s[2],                   c[1]*c[2],             pos[2]);
+    VM4_Set(out+12, 0,          0,                            0,                         1     );
+}
+
+void VM44_V2A1(float* pos, float angle, float* out) {
+    float s = sinf(angle);
+    float c = cosf(angle);
+
+    VM4_Set(out+0,  c, -s, 0, pos[0]);
+    VM4_Set(out+4,  s,  c, 0, pos[1]);
+    VM4_Set(out+8,  0,  0, 1, pos[2]);
+    VM4_Set(out+12, 0,  0, 0, 1     );   
+}
 
 #endif
