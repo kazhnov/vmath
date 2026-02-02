@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <math.h>
+#include <stdio.h>
 //#ifndef _VMATH_H_
 //#define _VMATH_H_
 
@@ -66,7 +67,6 @@ void VM3_Set(float* to, float x, float y, float z);
 // Vector3
 
 
-
 // Matrix 2x2
 void  VM22_AddO(float*, float*, float* out);
 void  VM22_Add(float* to, float*);
@@ -96,6 +96,8 @@ void  VM22_Set(float*, float, float, float, float);
 void VM44_V3A3(float* pos, float* a, float* out);
 
 void VM44_V2A1(float* pos, float angle, float* out);
+
+void VM44_Display(float* mat);
 
 
 //#endif
@@ -349,6 +351,15 @@ void VM44_V2A1(float* pos, float angle, float* out) {
     VM4_Set(out+4,  s,  c, 0, pos[1]);
     VM4_Set(out+8,  0,  0, 1, 0     );
     VM4_Set(out+12, 0,  0, 0, 1     );   
+}
+
+void VM44_Display(float* mat) {
+    for (int j = 0; j < 4; j++) {
+	for (int i = 0; i < 4; i++) {
+	    printf("%2.3f ");
+	}
+	printf("\n");
+    }
 }
 
 #endif
