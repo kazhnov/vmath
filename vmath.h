@@ -67,6 +67,8 @@ void VM3_Set(float* to, float x, float y, float z);
 #define VM2_ONE  {1.0f, 1.0f}
 
 // Vector3
+void VM3_RotateY(float *vec, float angle);
+
 
 
 // Matrix 2x2
@@ -241,6 +243,14 @@ void VM3_Set(float* to, float x, float y, float z) {
     to[0] = x;
     to[1] = y;
     to[2] = z;
+}
+
+void VM3_RotateY(float *vec, float angle) {
+    float temp[3];
+    temp[0] = vec[0]*cosf(angle) + vec[2]*sinf(angle);
+    temp[1] = vec[1];
+    temp[2] = -vec[0]*sinf(angle)+ vec[2]*cosf(angle);
+    VM3_Copy(vec, temp);
 }
 
 _Bool VMV_Eq(float* first, float* second, uint32_t dims) {
