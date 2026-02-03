@@ -61,6 +61,8 @@ _Bool VM2P_Eq(float (*first)[2], float (*second)[2], uint32_t amount);
 
 #define VM3_AddO(first, second, out)   (VMV_AddO(first, second, out, 3))
 #define VM3_Add(first, second)         (VMV_Add(first, second, 3))
+#define VM3_SubtractO(first, second, out) (VMV_SubtractO(first, second, out, 3))
+#define VM3_Subtract(first, second)       (VMV_Subtract(first, second, 3))
 #define VM3_ScaleO(first, second, out) (VMV_ScaleO(first, second, out, 3))
 #define VM3_Scale(first, second)       (VMV_Add(first, second, 3))
 #define VM3_Eq(first, second) (VMV_Eq(first, second, 3))
@@ -274,6 +276,20 @@ void VMV_Add(float* to, float* from, uint32_t dims) {
 	to[i] += from[i];
     }
 }
+
+
+void VMV_SubtractO(float* first, float* second, float* out, uint32_t dims) {
+    for (int i = 0; i < dims; i++) {
+	out[i] = first[i] - second[i];
+    }
+}
+
+void VMV_Subtract(float* first, float* second, uint32_t dims) {
+    for (int i = 0; i < dims; i++) {
+	first[i] -= second[i];
+    }
+}
+
 
 void VMV_ScaleO(float* first, float second, float* out, uint32_t dims) {
     for (int i = 0; i < dims; i++) {
