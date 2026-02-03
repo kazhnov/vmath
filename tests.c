@@ -48,7 +48,16 @@ void test_matricies() {
     VM22_Set(expected, 2., 0., 0., 2.);
     assert(VM22_Eq(result, expected));
     
+
+    float matrix[16] = VM44_IDENTITY;
+    float t[3] = {1, 2, 3};
+    float a[3] = {3.14159265, 0, 3.14159265};
+    VM44_Rotate(matrix, a);
+    VM44_Translate(matrix, t);
+    VM44_Debug(matrix);
+
     printf("OK\n");
+
 }
 
 

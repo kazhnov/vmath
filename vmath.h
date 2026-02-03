@@ -99,6 +99,8 @@ void  VM22_Set(float*, float, float, float, float);
 	0, 0, 1, 0,    \
 	0, 0, 0, 1}
 
+#define VM44_Copy(to, from) VMV_Copy(to, from, 16)
+
 void VM44_Translate(float* mat, float* pos);
 
 void VM44_Scale(float* mat, float* scale);
@@ -337,7 +339,6 @@ float VM22_Det(float* of) {
     VM22_Copy(of, temp);
 }
 
-
 void VM4_Set(float* to, float x, float y, float z, float w) {
     to[0] = x;
     to[1] = y;
@@ -345,24 +346,93 @@ void VM4_Set(float* to, float x, float y, float z, float w) {
     to[3] = w;
 }
 
-void VM44_Translate(float* mat, float* pos) {
-    mat[3] += pos[0];
-    mat[7] += pos[1];
-    mat[8] += pos[2];
+void VM44_MultiplyO(float* a, float* b, float* out) {
+    int d = 4;
+    for (int i = 0; i < d*d; i++) out[i] = 0;
+
+    for (int i = 0; i < d; i++) {
+	for (int j = 0; j < d; j++) {
+	    for (int k = 0; k < d; k++) {
+		out[j*d+i] += a[k*d+i] * b[j*d+k];
+	    }	
+	}
+    }
 }
 
-void VM44_Scale(float* mat, float* scale) {
-    mat[0] *= scale[0];
-    mat[5] *= scale[1];
-    mat[11] *= scale[2];
+void VM44_Translate(float* mat, float* t) {
+    float translated[16] = {
+	1,   0,    0,    t[0],
+	0,   1,    0,    t[1],
+	0,   0,    1,    t[2],
+	0,   0,    0,    1
+    };
+    float out[16];
+    VM44_MultiplyO(mat, translated, out);
+    VM44_Copy(mat, out);
+}
+
+void VM44_Scale(float* mat, float* s) {
+    float scaled[16] = {
+	s[0], 0,   0,    0,
+	0,   s[1], 0,    0,
+	0,   0,    s[2], 0,
+	0,   0,    0,    1
+    };
+    float out[16];
+    VM44_MultiplyO(mat, scaled, out);
+    VM44_Copy(mat, out);
+}
+
+void VM44_RotateX(float* mat, float a) {
+    float s = sinf(a);
+    float c = cosf(a);
+
+    float rotated[16] = {
+	1,    0,    0,    0,
+	0,    c,   -s,    0,
+	0,    s,    c,    0,
+	0,    0,    0,    1
+    };
+    float out[16];
+    VM44_MultiplyO(mat, rotated, out);
+    VM44_Copy(mat, out);
+}
+
+void VM44_RotateY(float* mat, float a) {
+    float s = sinf(a);
+    float c = cosf(a);
+    
+    float rotated[16] = {
+	c,    0,    s,    0,
+	0,    1,    0,    0,
+       -s,    0,    c,    0,
+	0,    0,    0,    1
+    };
+    float out[16];
+    VM44_MultiplyO(mat, rotated, out);
+    VM44_Copy(mat, out);
+}
+
+
+void VM44_RotateZ(float* mat, float a) {
+    float s = sinf(a);
+    float c = cosf(a);
+    
+    float rotated[16] = {
+	c,   -s,    0,    0,
+	s,    c,    0,    0,
+        0,    0,    1,    0,
+	0,    0,    0,    1
+    };
+    float out[16];
+    VM44_MultiplyO(mat, rotated, out);
+    VM44_Copy(mat, out);
 }
 
 void VM44_Rotate(float* mat, float* a) {
-    float s[3] = {sinf(a[0]), sinf(a[1]), sinf(a[2])};
-    float c[3] = {cosf(a[0]), cosf(a[1]), cosf(a[2])};
-    mat[0] *= c[0]*c[1]; mat[1] *= c[0]*s[1]*s[2] - s[0]*c[2]; mat[2] *= c[0]*s[1]*c[2] + s[0]*s[2];
-    mat[4] *= s[0]*c[1]; mat[5] *= s[0]*s[1]*s[2] - c[0]*c[2]; mat[6] *= s[0]*s[1]*c[2] - c[0]*s[2];
-    mat[8] *= -s[1];     mat[9] *= c[1]*s[2];                  mat[10]*= c[1]*c[2];
+    VM44_RotateX(mat, a[0]);
+    VM44_RotateY(mat, a[1]);
+    VM44_RotateZ(mat, a[2]);
 }
 
 void VM44_V3A3(float* pos, float* a, float* out) {
