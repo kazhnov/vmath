@@ -14,6 +14,8 @@
 
 // Scalar
 float VM_InverseSqrt(float);
+#define V_PI (3.1415926535);
+
 
 // Variable Vectors
 _Bool VMV_Eq(float* first, float* second, uint32_t dims);
