@@ -97,6 +97,7 @@ void VM44_V3A3(float* pos, float* a, float* out);
 
 void VM44_V2A1(float* pos, float angle, float* out);
 
+void VM44_Debug(float* mat);
 
 //#endif
 #ifdef _VMATH_IMPLEMENTATION_
@@ -344,11 +345,19 @@ void VM44_V3A3(float* pos, float* a, float* out) {
 void VM44_V2A1(float* pos, float angle, float* out) {
     float s = sinf(angle);
     float c = cosf(angle);
-
+    printf("s: %f, c: %f\n", s, c);
+    
     VM4_Set(out+0,  c, -s, 0, pos[0]);
     VM4_Set(out+4,  s,  c, 0, pos[1]);
     VM4_Set(out+8,  0,  0, 1, pos[2]);
     VM4_Set(out+12, 0,  0, 0, 1     );   
+}
+
+void VM44_Debug(float* mat) {
+    printf("MAT44\n");
+    for (int i = 0; i < 4; i++) {
+	printf("%.3f, %.3f, %.3f, %.3f\n", *mat++, *mat++, *mat++, *mat++);
+    }
 }
 
 #endif
