@@ -434,8 +434,8 @@ void VM44_RotateZ(float* mat, float a) {
 }
 
 void VM44_Rotate(float* mat, float* a) {
-    VM44_RotateX(mat, a[0]);
     VM44_RotateY(mat, a[1]);
+    VM44_RotateX(mat, a[0]);
     VM44_RotateZ(mat, a[2]);
 }
 
