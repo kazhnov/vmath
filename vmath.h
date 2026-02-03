@@ -97,12 +97,7 @@ void VM44_V3A3(float* pos, float* a, float* out);
 
 void VM44_V2A1(float* pos, float angle, float* out);
 
-<<<<<<< HEAD
 void VM44_Debug(float* mat);
-=======
-void VM44_Display(float* mat);
-
->>>>>>> d972b0fe1dae7893d94ee8e556bb980f77ead0a9
 
 //#endif
 #ifdef _VMATH_IMPLEMENTATION_
@@ -350,11 +345,7 @@ void VM44_V3A3(float* pos, float* a, float* out) {
 void VM44_V2A1(float* pos, float angle, float* out) {
     float s = sinf(angle);
     float c = cosf(angle);
-<<<<<<< HEAD
-    printf("s: %f, c: %f\n", s, c);
-=======
     printf("s: %f, c: %f\n");
->>>>>>> d972b0fe1dae7893d94ee8e556bb980f77ead0a9
     
     VM4_Set(out+0,  c, -s, 0, pos[0]);
     VM4_Set(out+4,  s,  c, 0, pos[1]);
@@ -362,20 +353,12 @@ void VM44_V2A1(float* pos, float angle, float* out) {
     VM4_Set(out+12, 0,  0, 0, 1     );   
 }
 
-<<<<<<< HEAD
 void VM44_Debug(float* mat) {
     printf("MAT44\n");
     for (int i = 0; i < 4; i++) {
 	printf("%.3f, %.3f, %.3f, %.3f\n", *mat++, *mat++, *mat++, *mat++);
-=======
-void VM44_Display(float* mat) {
-    for (int j = 0; j < 4; j++) {
-	for (int i = 0; i < 4; i++) {
-	    printf("%2.3f ");
-	}
-	printf("\n");
->>>>>>> d972b0fe1dae7893d94ee8e556bb980f77ead0a9
     }
 }
+
 
 #endif
