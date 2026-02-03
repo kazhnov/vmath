@@ -355,8 +355,8 @@ void VM44_V2A1(float* pos, float angle, float* out) {
 
 void VM44_Debug(float* mat) {
     printf("MAT44\n");
-    for (int i = 0; i < 4; i++) {
-	printf("%.3f, %.3f, %.3f, %.3f\n", *mat++, *mat++, *mat++, *mat++);
+    for (int i = 0; i < 16; i += 4) {
+	printf("%.3f, %.3f, %.3f, %.3f\n", mat[i], mat[i+1], mat[i+2], mat[i+3]);
     }
 }
 
