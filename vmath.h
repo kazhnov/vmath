@@ -14,7 +14,7 @@
 
 // Scalar
 float VM_InverseSqrt(float);
-#define V_PI (3.1415926535);
+#define V_PI (3.1415926535)
 
 
 // Variable Vectors
@@ -112,6 +112,8 @@ void VM44_Rotate(float* mat, float* a);
 void VM44_V3A3(float* pos, float* a, float* out);
 
 void VM44_V2A1(float* pos, float angle, float* out);
+
+void VM44_ProjectionPerspective(float* mat, float fov, float aratio, float near, float far);
 
 void VM44_Debug(float* mat);
 
@@ -462,5 +464,15 @@ void VM44_Debug(float* mat) {
     }
 }
 
+
+void VM44_ProjectionPerspective(float* mat, float fov, float aratio, float near, float far) {
+    float out[16] = {
+	1./(aratio*tanf(fov/2.)), 0,                 0,                           0,
+	0,                       1./(tanf(fov/2.)),  0,                           0,
+	0,                       0,                -1.*(far + near)/(far - near), -2.*far*near/(far - near),
+	0,                       0,                -1,                            0
+    };
+    VM44_Copy(mat, out);
+}
 
 #endif
