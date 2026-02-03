@@ -93,6 +93,12 @@ void  VM22_Set(float*, float, float, float, float);
 #define VM22_IDENTITY {1.0, 0.0, \
                         0.0, 1.0}
 
+void VM44_Translate(float* mat, float* pos);
+
+void VM44_Scale(float* mat, float* scale);
+
+void VM44_Rotate(float* mat, float* a);
+
 void VM44_V3A3(float* pos, float* a, float* out);
 
 void VM44_V2A1(float* pos, float angle, float* out);
@@ -333,13 +339,31 @@ void VM4_Set(float* to, float x, float y, float z, float w) {
     to[3] = w;
 }
 
-void VM44_V3A3(float* pos, float* a, float* out) {
+void VM44_Translate(float* mat, float* pos) {
+    mat[3] += pos[0];
+    mat[7] += pos[1];
+    mat[8] += pos[2];
+}
+
+void VM44_Scale(float* mat, float* scale) {
+    mat[0] *= scale[0];
+    mat[5] *= scale[1];
+    mat[11] *= scale[2];
+}
+
+void VM44_Rotate(float* mat, float* a) {
     float s[3] = {sinf(a[0]), sinf(a[1]), sinf(a[2])};
     float c[3] = {cosf(a[0]), cosf(a[1]), cosf(a[2])};
-    VM4_Set(out+0,  c[0]*c[1],  c[0]*s[1]*s[2] - s[0]*c[2],  c[0]*s[1]*c[2] + s[0]*s[2], pos[0]);
-    VM4_Set(out+4,  s[0]*c[1],  s[0]*s[1]*s[2] - c[0]*c[2],  s[0]*s[1]*c[2] - c[0]*s[2], pos[1]);
-    VM4_Set(out+8,      -s[1],       c[1]*s[2],                   c[1]*c[2],             pos[2]);
-    VM4_Set(out+12, 0,          0,                            0,                         1     );
+    mat[0] *= c[0]*c[1]; mat[1] *= c[0]*s[1]*s[2] - s[0]*c[2]; mat[2] *= c[0]*s[1]*c[2] + s[0]*s[2];
+    mat[4] *= s[0]*c[1]; mat[5] *= s[0]*s[1]*s[2] - c[0]*c[2]; mat[6] *= s[0]*s[1]*c[2] - c[0]*s[2];
+    mat[8] *= -s[1];     mat[9] *= c[1]*s[2];                  mat[10]*= c[1]*c[2];
+}
+
+void VM44_V3A3(float* pos, float* a, float* out) {
+    float matrix[16];
+    VM44_Rotate(matrix, a);
+    VM44_Translate(matrix, pos);
+    VMV_Copy(out, matrix, 16);
 }
 
 void VM44_V2A1(float* pos, float angle, float* out) {
