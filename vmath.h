@@ -93,6 +93,12 @@ void  VM22_Set(float*, float, float, float, float);
 #define VM22_IDENTITY {1.0, 0.0, \
                         0.0, 1.0}
 
+#define VM44_IDENTITY {\
+    1, 0, 0, 0,	       \
+	0, 1, 0, 0,    \
+	0, 0, 1, 0,    \
+	0, 0, 0, 1}
+
 void VM44_Translate(float* mat, float* pos);
 
 void VM44_Scale(float* mat, float* scale);
@@ -360,7 +366,7 @@ void VM44_Rotate(float* mat, float* a) {
 }
 
 void VM44_V3A3(float* pos, float* a, float* out) {
-    float matrix[16];
+    float matrix[16] = VM44_IDENTITY;
     VM44_Rotate(matrix, a);
     VM44_Translate(matrix, pos);
     VMV_Copy(out, matrix, 16);
