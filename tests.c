@@ -15,7 +15,7 @@ void test_vectors() {
     expected[0] = 5.0f; expected[1] = 30.0f;
     VM2_ScaleO(first, 5.0, result);
     assert(VM2_Eq(result, expected));
-
+    
     printf("OK\n");
 }
 
@@ -58,6 +58,18 @@ void test_matricies() {
 
     printf("OK\n");
 
+    float matrix1[16] = {
+	 1, 2, 4, 4,
+	 5, 57, 12, 8,
+	 9,10,23,12,
+	13,14,15,15
+    };
+    float out[16];
+    
+    bool done  =VM44_InverseO(matrix1, out);
+    printf("%d", done);
+    
+    VM44_Debug(out);
 }
 
 
