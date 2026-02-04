@@ -64,7 +64,7 @@ _Bool VM2P_Eq(float (*first)[2], float (*second)[2], uint32_t amount);
 #define VM3_SubtractO(first, second, out) (VMV_SubtractO(first, second, out, 3))
 #define VM3_Subtract(first, second)       (VMV_Subtract(first, second, 3))
 #define VM3_ScaleO(first, second, out) (VMV_ScaleO(first, second, out, 3))
-#define VM3_Scale(first, second)       (VMV_Add(first, second, 3))
+#define VM3_Scale(first, second)       (VMV_Scale(first, second, 3))
 #define VM3_Eq(first, second) (VMV_Eq(first, second, 3))
 #define VM3_Copy(to, from)    (VMV_Copy(to, from, 3))
 void VM3_Set(float* to, float x, float y, float z);
