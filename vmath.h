@@ -2,6 +2,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <assert.h>
 //#ifndef _VMATH_H_
 //#define _VMATH_H_
 
@@ -314,7 +315,7 @@ void VMV_Copy(float* to, float* from, uint32_t dims) {
 // Matrix 2x2
 
 void VM22_AddO(float* first, float* second, float* out) {
-    for (int i = 0; i < 4; i++) {
+    for (uint32_t i = 0; i < 4; i++) {
 	out[i] = first[i] + second[i];
     }
 }
@@ -326,7 +327,7 @@ void  VM22_Add(float* to, float* from) {
 }
 
 void VM22_SubO(float* first, float* second, float* out) {
-    for (int i = 0; i < 4; i++) {
+    for (uint32_t i = 0; i < 4; i++) {
 	out[i] = first[i] - second[i];
     }
 }
@@ -350,13 +351,13 @@ void  VM22_Scale(float* to, float a) {
 }
 
 void  VM22_Copy(float* to, float* from) {
-    for (int i = 0; i < 4; i++) {
+    for (uint32_t i = 0; i < 4; i++) {
 	to[i] = from[i];
     }
 }
 
 _Bool VM22_Eq(float* first, float* second) {
-    for (int i = 0; i < 4; i++) {
+    for (uint32_t i = 0; i < 4; i++) {
 	if (first[i] != second[i]) return 0;
     }
     return 1;
