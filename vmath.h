@@ -135,8 +135,8 @@ void VM44_Debug(float* mat);
 
 // the infamous quake quick inverse square root function (Comments preserved)
 float VM_InverseSqrt(float number) {
-    long i;
-    float x2, y;
+    long i = 0;
+    float x2 = 0, y = 0;
     const float threehalfs = 1.5F;
 
     x2 = number * 0.5F;
