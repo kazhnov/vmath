@@ -54,7 +54,7 @@ void test_matricies() {
     float a[3] = {3.14159265, 0, 3.14159265};
     VM44_Rotate(matrix, a);
     VM44_Translate(matrix, t);
-    VM44_Debug(matrix);
+
 
     printf("OK\n");
 
@@ -66,9 +66,7 @@ void test_matricies() {
     };
     float out[16];
     
-    bool done  =VM44_InverseO(matrix1, out);
-    printf("%d", done);
-    
+    VM44_InverseO(matrix1, out);
     VM44_Debug(out);
 }
 

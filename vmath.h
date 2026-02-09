@@ -227,19 +227,19 @@ void VM2_Set(float* to, float x, float y) {
 }
 
 void VM2_Pack(float* values, uint32_t amount, float (*out)[2]) {
-    for (int i = 0; i < amount/2; i++) {
+    for (uint32_t i = 0; i < amount/2; i++) {
 	VM2_Copy(out[i], values+2*i);
     }
 }
 
 void VM2_Unpack(float (*values)[2], uint32_t amount, float* out) {
-    for (int i = 0; i < amount; i++) {
+    for (uint32_t i = 0; i < amount; i++) {
 	VM2_Copy(out+2*i, values[i]);
     }    
 }
 
 _Bool VM2P_Eq(float (*first)[2], float (*second)[2], uint32_t amount) {
-    for (int i = 0; i < amount; i++) {
+    for (uint32_t i = 0; i < amount; i++) {
 	if (!VM2_Eq(first[i], second[i])) return 0;
     }
     return 1;
@@ -260,53 +260,53 @@ void VM3_RotateY(float *vec, float angle) {
 }
 
 _Bool VMV_Eq(float* first, float* second, uint32_t dims) {
-    for (int i = 0; i < dims; i++) {
+    for (uint32_t i = 0; i < dims; i++) {
 	if (first[i] != second[i]) return 0;
     }
     return 1;
 }
 
 void VMV_AddO(float* first, float* second, float* out, uint32_t dims) {
-    for (int i = 0; i < dims; i++) {
+    for (uint32_t i = 0; i < dims; i++) {
 	out[i] = first[i] + second[i];
     }
 }
 
 void VMV_Add(float* to, float* from, uint32_t dims) {
-    for (int i = 0; i < dims; i++) {
+    for (uint32_t i = 0; i < dims; i++) {
 	to[i] += from[i];
     }
 }
 
 
 void VMV_SubtractO(float* first, float* second, float* out, uint32_t dims) {
-    for (int i = 0; i < dims; i++) {
+    for (uint32_t i = 0; i < dims; i++) {
 	out[i] = first[i] - second[i];
     }
 }
 
 void VMV_Subtract(float* first, float* second, uint32_t dims) {
-    for (int i = 0; i < dims; i++) {
+    for (uint32_t i = 0; i < dims; i++) {
 	first[i] -= second[i];
     }
 }
 
 
 void VMV_ScaleO(float* first, float second, float* out, uint32_t dims) {
-    for (int i = 0; i < dims; i++) {
+    for (uint32_t i = 0; i < dims; i++) {
 	out[i] = first[i] * second;
     }
 }
 
 void VMV_Scale(float* to, float from, uint32_t dims) {
-    for (int i = 0; i < dims; i++) {
+    for (uint32_t i = 0; i < dims; i++) {
 	to[i] *= from;
     }
 }
 
 
 void VMV_Copy(float* to, float* from, uint32_t dims) {
-    for (int i = 0; i < dims; i++) {
+    for (uint32_t i = 0; i < dims; i++) {
 	to[i] = from[i];
     }
 }
@@ -385,9 +385,9 @@ void VM22_DetO(float* of, float* out) {
 }
 
 float VM22_Det(float* of) {
-    float temp[4];
-    VM22_DetO(of, temp);
-    VM22_Copy(of, temp);
+    float temp;
+    VM22_DetO(of, &temp);
+    return temp;
 }
 
 void VM4_Set(float* to, float x, float y, float z, float w) {
@@ -412,7 +412,8 @@ void VM44_MultiplyO(float* a, float* b, float* out) {
 
 
 float VM44_Det(float* mat) {
-
+    assert(false && "Not implemented");
+    return mat[0];
 }
 
 // taken from glu library
@@ -547,8 +548,9 @@ bool VM44_InverseO(float* m, float* invOut) {
 
 bool VM44_Inverse(float* mat) {
     float temp[16];
-    VM44_InverseO(mat, temp);
+    float result = VM44_InverseO(mat, temp);
     VM44_Copy(mat, temp);
+    return result;
 }
 
 void VM44_Translate(float* mat, float* t) {
@@ -637,7 +639,6 @@ void VM44_V3A3(float* pos, float* a, float* out) {
 void VM44_V2A1(float* pos, float angle, float* out) {
     float s = sinf(angle);
     float c = cosf(angle);
-    printf("s: %f, c: %f\n");
     
     VM4_Set(out+0,  c, -s, 0, pos[0]);
     VM4_Set(out+4,  s,  c, 0, pos[1]);
