@@ -24,6 +24,9 @@ _Bool VMV_Eq(float* first, float* second, uint32_t dims);
 void VMV_Copy(float* first, float* second, uint32_t dims);
 void VMV_AddO(float* first, float* second, float* out, uint32_t dims);
 void VMV_Add(float* to, float* from, uint32_t dims);
+float VMV_Length(float* of, uint32_t dims);
+void VMV_NormalizeO(float* from, float* to, uint32_t dims);
+void VMV_Normalize(float* of, uint32_t dims);
 
 
 // Vector2
@@ -69,6 +72,10 @@ _Bool VM2P_Eq(float (*first)[2], float (*second)[2], uint32_t amount);
 #define VM3_Scale(first, second)       (VMV_Scale(first, second, 3))
 #define VM3_Eq(first, second) (VMV_Eq(first, second, 3))
 #define VM3_Copy(to, from)    (VMV_Copy(to, from, 3))
+#define VM3_Length(of)        (VMV_Length(of, 3))
+#define VM3_Normalize(of)     (VMV_Normalize(of, 3))
+#define VM3_NormalizeO(of, to) (VMV_NormalizeO(of, to, 3))
+
 void VM3_Set(float* to, float x, float y, float z);
 
 #define VM2_ZERO {0.0f, 0.0f}
@@ -310,6 +317,27 @@ void VMV_Copy(float* to, float* from, uint32_t dims) {
     for (uint32_t i = 0; i < dims; i++) {
 	to[i] = from[i];
     }
+}
+
+float VMV_Length(float* of, uint32_t dims) {
+    float length_squared = 0;
+    for (uint32_t i = 0; i < dims; i++) {
+	length_squared += of[i]*of[i];
+    }
+    return sqrt(length_squared);
+}
+
+void VMV_NormalizeO(float* from, float* to, uint32_t dims) {
+    float length = VMV_Length(from, dims);
+    for (uint32_t i = 0; i < dims; i++) {
+	to[i] = from[i]/length;
+    }
+}
+
+void VMV_Normalize(float* of, uint32_t dims) {
+    float temp[dims];
+    VMV_NormalizeO(of, temp, dims);
+    VMV_Copy(of, temp, dims);
 }
 
 // Matrix 2x2
