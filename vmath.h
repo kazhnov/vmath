@@ -145,6 +145,8 @@ bool VM44_Inverse(f32* mat);
 
 void VM44_Translate(f32* mat, f32* pos);
 
+void VM44_Transpose(f32* mat);
+
 void VM44_Scale(f32* mat, f32* scale);
 
 void VM44_Rotate(f32* mat, f32* a);
@@ -623,6 +625,17 @@ void VM44_Scale(f32* mat, f32* s) {
     f32 out[16];
     VM44_MultiplyO(mat, scaled, out);
     VM44_Copy(mat, out);
+}
+
+void VM44_Transpose(f32* mat) {
+    f32 temp[16] = {
+	mat[0], mat[4], mat[8], mat[12],
+	mat[1], mat[5], mat[9], mat[13],
+	mat[2], mat[6], mat[10], mat[14],
+	mat[3], mat[7], mat[11], mat[15]
+    };
+
+    VM44_Copy(mat, temp);
 }
 
 void VM44_RotateX(f32* mat, f32 a) {
