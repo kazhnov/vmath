@@ -17,9 +17,12 @@ void test_vectors() {
     assert(VM2_Eq(result, expected));
 
     f32 d_from[] = {1.0, 1.0, 2.0};
-    f32 d_to[] = {4.0, 5.0, 2.0};
+    f32 d_to[] =   {4.0, 5.0, 2.0};
     assert(VM3_Distance(d_from, d_to) == 5.0);
     assert(VM3_Dot(d_from, d_to) == 13.0);
+    f32 c_result[3];
+    VM3_CrossO(d_from, d_to, c_result);
+    assert(VM3_Eq(c_result, ((f32[]){2-10, 8-2, 5-4})));
     
     printf("OK\n");
 }

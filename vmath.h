@@ -99,16 +99,16 @@ bool VM2P_Eq(f32 (*first)[2], f32 (*second)[2], u32 amount);
 #define VM3_Normalize(of)     (VMV_Normalize(of, 3))
 #define VM3_NormalizeO(of, to) (VMV_NormalizeO(of, to, 3))
 #define VM3_Distance(of, to) (VMV_Distance(of, to, 3))
-#define VM3_Dot(a, b) (VMV_Dot(a, b, 3))
-
-
-void VM3_Set(f32* to, f32 x, f32 y, f32 z);
 
 #define VM2_ZERO {0.0f, 0.0f}
 #define VM2_ONE  {1.0f, 1.0f}
 
 // Vector3
 void VM3_RotateY(f32 *vec, f32 angle);
+float VM3_Dot(f32 a[3], f32 b[3]);
+void VM3_CrossO(f32 a[3], f32 b[3], f32 out[3]);
+void VM3_Set(f32* to, f32 x, f32 y, f32 z);
+
 
 
 // Matrix 2x2
@@ -298,6 +298,16 @@ void VM3_RotateY(f32 *vec, f32 angle) {
     temp[1] = vec[1];
     temp[2] = -vec[0]*sinf(angle)+ vec[2]*cosf(angle);
     VM3_Copy(vec, temp);
+}
+
+float VM3_Dot(f32 a[3], f32 b[3]) {
+    return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+}
+
+void VM3_CrossO(f32 a[3], f32 b[3], f32 out[3]) {
+    out[0] = a[1]*b[2] - a[2]*b[1];
+    out[1] = a[2]*b[0] - a[0]*b[2];
+    out[2] = a[0]*b[1] - a[1]*b[0];
 }
 
 bool VMV_Eq(f32* first, f32* second, u32 dims) {
