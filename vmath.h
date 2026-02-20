@@ -111,7 +111,8 @@ void VM3_RotateY(f32 *vec, f32 angle);
 float VM3_Dot(f32 a[3], f32 b[3]);
 void VM3_CrossO(f32 a[3], f32 b[3], f32 out[3]);
 void VM3_Set(f32* to, f32 x, f32 y, f32 z);
-
+void VM3_Abs(f32* of);
+void VM3_AbsO(f32* of, f32* to);
 
 
 // Matrix 2x2
@@ -293,6 +294,18 @@ void VM3_Set(f32* to, f32 x, f32 y, f32 z) {
     to[0] = x;
     to[1] = y;
     to[2] = z;
+}
+
+void VM3_Abs(f32* of) {
+    of[0] = fabs(of[0]);
+    of[1] = fabs(of[1]);
+    of[2] = fabs(of[2]);
+}
+
+void VM3_AbsO(f32* of, f32* to) {
+    to[0] = fabs(of[0]);
+    to[1] = fabs(of[1]);
+    to[2] = fabs(of[2]);    
 }
 
 void VM3_RotateY(f32 *vec, f32 angle) {
