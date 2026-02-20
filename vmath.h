@@ -48,7 +48,7 @@ f32 VMV_Length(f32* of, u32 dims);
 void VMV_NormalizeO(f32* from, f32* to, u32 dims);
 void VMV_Normalize(f32* of, u32 dims);
 f32 VMV_Distance(f32* of, f32* to, u32 dims);
-
+f32 VMV_Dot(f32* a, f32* b, u32 dims);
 // Vector2
 #define VM2_AddO(first, second, out) (VMV_AddO(first, second, out, 2))
 #define VM2_Add(to, from)            (VMV_Add(to, from, 2))
@@ -96,6 +96,8 @@ bool VM2P_Eq(f32 (*first)[2], f32 (*second)[2], u32 amount);
 #define VM3_Normalize(of)     (VMV_Normalize(of, 3))
 #define VM3_NormalizeO(of, to) (VMV_NormalizeO(of, to, 3))
 #define VM3_Distance(of, to) (VMV_Distance(of, to, 3))
+#define VM3_Dot(a, b) (VMV_Dot(a, b, 3))
+
 
 void VM3_Set(f32* to, f32 x, f32 y, f32 z);
 
@@ -372,6 +374,14 @@ f32 VMV_Distance(f32* of, f32* to, u32 dims) {
     f32 temp[dims];
     VMV_SubtractO(of, to, temp, dims);
     return VMV_Length(temp, 3);
+}
+
+f32 VMV_Dot(f32* a, f32* b, u32 dims) {
+    f32 sum = 0;
+    for (u32 i = 0; i < dims; i++) {
+	sum += a[i]*b[i];
+    }
+    return sum;
 }
 
 // Matrix 2x2
