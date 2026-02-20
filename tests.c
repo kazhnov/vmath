@@ -19,7 +19,6 @@ void test_vectors() {
     f32 d_from[] = {1.0, 1.0, 2.0};
     f32 d_to[] = {4.0, 5.0, 2.0};
     assert(VM3_Distance(d_from, d_to) == 5.0);
-    printf("%f\n", VM3_Distance(d_from, d_to));
     
     printf("OK\n");
 }

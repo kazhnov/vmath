@@ -47,7 +47,7 @@ void VMV_Add(f32* to, f32* from, u32 dims);
 f32 VMV_Length(f32* of, u32 dims);
 void VMV_NormalizeO(f32* from, f32* to, u32 dims);
 void VMV_Normalize(f32* of, u32 dims);
-bool VMV_Distance(f32* of, f32* to, u32 dims);
+f32 VMV_Distance(f32* of, f32* to, u32 dims);
 
 // Vector2
 #define VM2_AddO(first, second, out) (VMV_AddO(first, second, out, 2))
