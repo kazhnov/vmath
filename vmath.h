@@ -347,7 +347,7 @@ f32 VMV_Length(f32* of, u32 dims) {
     for (u32 i = 0; i < dims; i++) {
 	length_squared += of[i]*of[i];
     }
-    return sqrt(length_squared);
+    return sqrtf(length_squared);
 }
 
 void VMV_NormalizeO(f32* from, f32* to, u32 dims) {
@@ -363,7 +363,7 @@ void VMV_Normalize(f32* of, u32 dims) {
     VMV_Copy(of, temp, dims);
 }
 
-bool VMV_Distance(f32* of, f32* to, u32 dims) {
+f32 VMV_Distance(f32* of, f32* to, u32 dims) {
     f32 temp[dims];
     VMV_SubtractO(of, to, temp, dims);
     return VMV_Length(temp, 3);

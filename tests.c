@@ -15,6 +15,11 @@ void test_vectors() {
     expected[0] = 5.0f; expected[1] = 30.0f;
     VM2_ScaleO(first, 5.0, result);
     assert(VM2_Eq(result, expected));
+
+    f32 d_from[] = {1.0, 1.0, 2.0};
+    f32 d_to[] = {4.0, 5.0, 2.0};
+    assert(VM3_Distance(d_from, d_to) == 5.0);
+    printf("%f\n", VM3_Distance(d_from, d_to));
     
     printf("OK\n");
 }
