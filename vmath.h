@@ -95,6 +95,7 @@ bool VM2P_Eq(f32 (*first)[2], f32 (*second)[2], u32 amount);
 #define VM3_Length(of)        (VMV_Length(of, 3))
 #define VM3_Normalize(of)     (VMV_Normalize(of, 3))
 #define VM3_NormalizeO(of, to) (VMV_NormalizeO(of, to, 3))
+#define VM3_Distance(of, to) (VMV_Distance(of, to, 3))
 
 void VM3_Set(f32* to, f32 x, f32 y, f32 z);
 
@@ -360,6 +361,12 @@ void VMV_Normalize(f32* of, u32 dims) {
     f32 temp[dims];
     VMV_NormalizeO(of, temp, dims);
     VMV_Copy(of, temp, dims);
+}
+
+bool VMV_Distance(f32* of, f32* to, u32 dims) {
+    f32 temp[dims];
+    VMV_SubtractO(of, to, temp, dims);
+    return VMV_Length(temp, 3);
 }
 
 // Matrix 2x2
