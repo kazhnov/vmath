@@ -160,6 +160,11 @@ void VM44_ProjectionPerspective(f32* mat, f32 fov, f32 aratio, f32 near, f32 far
 
 void VM44_Debug(f32* mat);
 
+void VM44_V3MultiplyO(f32* mat, f32 *v, f32* out);
+
+void VM44_V3Multiply(f32* mat, f32 *v);
+
+
 //#endif
 #ifdef _VMATH_IMPLEMENTATION_
 
@@ -730,6 +735,18 @@ void VM44_ProjectionPerspective(f32* mat, f32 fov, f32 aratio, f32 near, f32 far
 	0,                       0,                -1,                            0
     };
     VM44_Copy(mat, out);
+}
+
+void VM44_V3MultiplyO(f32 mat[16], f32 v[3], f32 out[3]) {
+    out[0] = v[0]*mat[0] + v[1]*mat[1] + v[2]*mat[2]  + mat[3];
+    out[1] = v[0]*mat[4] + v[1]*mat[5] + v[2]*mat[6]  + mat[7];
+    out[2] = v[0]*mat[8] + v[1]*mat[9] + v[2]*mat[10] + mat[11];
+}
+
+void VM44_V3Multiply(f32 mat[16], f32 v[3]) {
+    float out[3];
+    VM44_V3MultiplyO(mat, v, out);
+    VM3_Copy(v, out);
 }
 
 #endif

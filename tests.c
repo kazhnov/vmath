@@ -55,10 +55,13 @@ void test_matricies() {
 
     f32 matrix[16] = VM44_IDENTITY;
     f32 t[3] = {1, 2, 3};
-    f32 a[3] = {3.14159265, 0, 3.14159265};
+    f32 a[3] = {V_PI/2, 0, 0};
     VM44_Rotate(matrix, a);
     VM44_Translate(matrix, t);
-
+    f32 vector[3] = {0, 1, 1};
+    VM44_V3Multiply(matrix, vector);
+    assert(VM3_Eq(vector, ((f32[]){1, 1, 4})));
+    
 
     printf("OK\n");
 
