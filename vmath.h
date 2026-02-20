@@ -51,6 +51,9 @@ f32 VMV_Distance(f32* of, f32* to, u32 dims);
 f32 VMV_Dot(f32* a, f32* b, u32 dims);
 void VMV_ScaleO(f32* first, f32 second, f32* out, u32 dims);
 void VMV_Scale(f32* first, f32 second, u32 dims);
+void VMV_SubtractO(f32* first, f32* second, f32* out, u32 dims);
+void VMV_Subtract(f32* first, f32* second, u32 dims);
+
 
 // Vector2
 #define VM2_AddO(first, second, out) (VMV_AddO(first, second, out, 2))
