@@ -124,6 +124,7 @@ void VM3_Abs(f32* of);
 void VM3_AbsO(f32* of, f32* to);
 void VM3_Negate(f32 a[3]);
 void VM3_NegateO(f32 a[3], f32 out[3]);
+bool VM3_SameDirection(f32 a[3], f32 b[3]);
 
 
 // Matrix 2x2
@@ -329,6 +330,10 @@ void VM3_NegateO(f32 a[3], f32 out[3]) {
     out[0] = -a[0];
     out[1] = -a[1];
     out[2] = -a[2];
+}
+
+bool VM3_SameDirection(f32 a[3], f32 b[3]) {
+    return VM3_Dot(a, b) > 0;
 }
 
 void VM3_RotateY(f32 *vec, f32 angle) {
