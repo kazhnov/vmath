@@ -23,6 +23,11 @@ void test_vectors() {
     f32 c_result[3];
     VM3_CrossO(d_from, d_to, c_result);
     assert(VM3_Eq(c_result, ((f32[]){2-10, 8-2, 5-4})));
+
+    f32 n_from[] = {1.0, -2.0, 3.0};
+    f32 n_result[3];
+    VM3_NegateO(n_from, n_result);
+    assert(VM3_Eq(n_result, ((f32[]){-1.0, 2.0, -3.0})));
     
     printf("OK\n");
 }
