@@ -106,6 +106,15 @@ bool VM2P_Eq(f32 (*first)[2], f32 (*second)[2], u32 amount);
 #define VM2_ZERO {0.0f, 0.0f}
 #define VM2_ONE  {1.0f, 1.0f}
 
+#define VM3_ZERO    ((f32[3]){ 0.0, 0.0, 0.0})
+#define VM3_ONE     ((f32[3]){ 1.0, 1.0, 1.0})
+#define VM3_RIGHT   ((f32[3]){ 1.0, 0.0, 0.0})
+#define VM3_UP      ((f32[3]){ 0.0, 1.0, 0.0})
+#define VM3_FORWARD ((f32[3]){ 0.0, 0.0,-1.0})
+#define VM3_BACK    ((f32[3]){ 0.0, 0.0, 1.0})
+#define VM3_LEFT    ((f32[3]){-1.0, 0.0, 0.0})
+#define VM3_DOWN    ((f32[3]){ 0.0,-1.0, 0.0})
+
 // Vector3
 void VM3_RotateY(f32 *vec, f32 angle);
 float VM3_Dot(f32 a[3], f32 b[3]);
