@@ -113,6 +113,8 @@ void VM3_CrossO(f32 a[3], f32 b[3], f32 out[3]);
 void VM3_Set(f32* to, f32 x, f32 y, f32 z);
 void VM3_Abs(f32* of);
 void VM3_AbsO(f32* of, f32* to);
+void VM3_Negate(f32 a[3]);
+void VM3_NegateO(f32 a[3], f32 out[3]);
 
 
 // Matrix 2x2
@@ -306,6 +308,18 @@ void VM3_AbsO(f32* of, f32* to) {
     to[0] = fabs(of[0]);
     to[1] = fabs(of[1]);
     to[2] = fabs(of[2]);    
+}
+
+void VM3_Negate(f32 a[3]) {
+    a[0] = -a[0];
+    a[1] = -a[1];
+    a[2] = -a[2];
+}
+
+void VM3_NegateO(f32 a[3], f32 out[3]) {
+    out[0] = -a[0];
+    out[1] = -a[1];
+    out[2] = -a[2];
 }
 
 void VM3_RotateY(f32 *vec, f32 angle) {
