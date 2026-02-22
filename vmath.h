@@ -90,14 +90,7 @@ void VM2_Pack(f32* values, u32 amount, f32 (*out)[2]);
 void VM2_Unpack(f32 (*values)[2], u32 amount, f32* out);
 bool VM2P_Eq(f32 (*first)[2], f32 (*second)[2], u32 amount);
 
-#define VM3_AddO(first, second, out)   (VMV_AddO(first, second, out, 3))
-#define VM3_Add(first, second)         (VMV_Add(first, second, 3))
-#define VM3_SubtractO(first, second, out) (VMV_SubtractO(first, second, out, 3))
-#define VM3_Subtract(first, second)       (VMV_Subtract(first, second, 3))
-#define VM3_ScaleO(first, second, out) (VMV_ScaleO(first, second, out, 3))
-#define VM3_Scale(first, second)       (VMV_Scale(first, second, 3))
 #define VM3_Eq(first, second) (VMV_Eq(first, second, 3))
-#define VM3_Copy(to, from)    (VMV_Copy(to, from, 3))
 #define VM3_Length(of)        (VMV_Length(of, 3))
 #define VM3_Normalize(of)     (VMV_Normalize(of, 3))
 #define VM3_NormalizeO(of, to) (VMV_NormalizeO(of, to, 3))
@@ -127,7 +120,13 @@ void VM3_NegateO(f32 a[3], f32 out[3]);
 bool VM3_SameDirection(f32 a[3], f32 b[3]);
 void VM3_Multiply(f32 a[3], f32 b[3]);
 void VM3_MultiplyO(f32 a[3], f32 b[3], f32 out[3]);
-
+void VM3_Copy(f32 to[3], f32 from[3]);
+void VM3_AddO(f32 first[3], f32 second[3], f32 out[3]);
+void VM3_Add(f32 first[3], f32 second[3]);
+void VM3_SubtractO(f32 first[3], f32 second[3], f32 out[3]);
+void VM3_Subtract(f32 first[3], f32 second[3]);
+void VM3_ScaleO(f32 first[3], f32 second, f32 out[3]);
+void VM3_Scale(f32 first[3], f32 second);
 
 // Matrix 2x2
 void  VM22_AddO(f32*, f32*, f32* out);
@@ -349,6 +348,48 @@ void VM3_MultiplyO(f32 a[3], f32 b[3], f32 out[3]) {
     out[1] = a[1] * b[1];
     out[2] = a[2] * b[2];    
 }
+
+void VM3_Copy(f32 to[3], f32 from[3]) {
+    to[0] = from[0];
+    to[1] = from[1];
+    to[2] = from[2];
+}
+
+void VM3_AddO(f32 first[3], f32 second[3], f32 out[3]) {
+    out[0] = first[0] + second[0];
+    out[1] = first[1] + second[1];
+    out[2] = first[2] + second[2];    
+}
+
+void VM3_Add(f32 first[3], f32 second[3]) {
+    first[0] += second[0];
+    first[1] += second[1];
+    first[2] += second[2];    
+}
+
+void VM3_SubtractO(f32 first[3], f32 second[3], f32 out[3]) {
+    out[0] = first[0] - second[0];
+    out[1] = first[1] - second[1];
+    out[2] = first[2] - second[2];    
+}
+
+void VM3_Subtract(f32 first[3], f32 second[3]) {
+    first[0] -= second[0];
+    first[1] -= second[1];
+    first[2] -= second[2];    
+}
+
+void VM3_ScaleO(f32 first[3], f32 second, f32 out[3]) {
+    out[0] = first[0] * second;
+    out[1] = first[1] * second;
+    out[2] = first[2] * second;    
+}
+void VM3_Scale(f32 first[3], f32 second) {
+    first[0] *= second;
+    first[1] *= second;
+    first[2] *= second;    
+}
+
 
 void VM3_RotateY(f32 *vec, f32 angle) {
     f32 temp[3];
