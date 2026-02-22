@@ -181,9 +181,9 @@ void VM44_ProjectionPerspective(f32* mat, f32 fov, f32 aratio, f32 near, f32 far
 
 void VM44_Debug(f32* mat);
 
-void VM44_V3MultiplyO(f32* mat, f32 *v, f32* out);
+void VM44_V3MultiplyO(f32 mat[16], f32 v[3], f32 out[3]);
 
-void VM44_V3Multiply(f32* mat, f32 *v);
+void VM44_V3Multiply(f32 mat[16], f32 v[3]);
 
 
 //#endif
